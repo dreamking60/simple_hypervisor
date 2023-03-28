@@ -5,10 +5,12 @@ use core::{arch::global_asm};
 
 mod panic;
 mod uart_console;
+mod gicv3;
 
-global_asm!(include_str!("start.S"));
+global_asm!(include_str!("start.s"));
 
 #[no_mangle]
 pub extern "C" fn hypervisor_main() {
-    println!("Hello, Hypervisor");
+    let mut writer = uart_console::Writer{};
+    writer.write_string("Hypervisor running...\r\n");
 }
