@@ -5,7 +5,6 @@ use core::{arch::global_asm};
 
 mod panic;
 mod uart_console;
-mod gicv3;
 
 global_asm!(include_str!("start.s"));
 
