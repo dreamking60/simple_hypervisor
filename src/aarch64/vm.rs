@@ -1,5 +1,6 @@
 use super::vcpu::{VCPU};
 
+#[derive(Clone, Copy)]
 pub struct VM {
     vcpu: VCPU,
     vmid: u32,

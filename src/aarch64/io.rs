@@ -9,6 +9,11 @@ macro_rules! SMC {
 }
 
 #[macro_export]
+macro_rules! REG {
+    ($($arg:tt)*) => ($crate::aarch64::uart_console::println("REG:" + format_args!($($arg)*)));
+}
+
+#[macro_export]
 macro_rules! ERROR {
     ($($arg:tt)*) => ($crate::aarch64::uart_console::println("ERROR:" + format_args!($($arg)*)));
 }
