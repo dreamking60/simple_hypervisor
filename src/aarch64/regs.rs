@@ -1,4 +1,6 @@
 // register from x1 to x30
+
+#[derive(Copy, Clone)]
 pub struct Regs {
     x1: u64,
     x2: u64,

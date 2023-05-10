@@ -1,4 +1,4 @@
-use super::vcpu::VCPU;
+use super::vcpu::{VCPU};
 
 pub struct VM {
     vcpu: VCPU,

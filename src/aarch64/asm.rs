@@ -83,11 +83,78 @@ pub fn disable_serror() {
     unsafe { asm!("msr DAIFSet, #8") };
 }
 
-// currentEL
+// read register
+#[inline(always)]
+pub fn read_reg(reg: u64) -> u64 {
+    let val: u64;
+    unsafe {
+        asm!("mov {}, {}", out(reg) val, in(reg) reg, options(nomem, nostack, preserves_flags));
+    }
+    val
+}
+
+// get current exception level
+#[inline(always)]
 pub fn get_current_el() -> u32 {
     let current_el: u64;
     unsafe {
         asm!("mrs {}, CurrentEL", out(reg) current_el, options(nomem, nostack, preserves_flags));
     }
     (current_el >> 2) as u32
+}
+
+// read elr_el2 register
+#[inline(always)]
+pub fn read_elr_el2() -> u64 {
+    let elr_el2: u64;
+    unsafe {
+        asm!("mrs {}, ELR_EL2", out(reg) elr_el2, options(nomem, nostack, preserves_flags));
+    }
+    elr_el2
+}
+
+// read elr_el1 register
+#[inline(always)]
+pub fn read_elr_el1() -> u64 {
+    let elr_el1: u64;
+    unsafe {
+        asm!("mrs {}, ELR_EL1", out(reg) elr_el1, options(nomem, nostack, preserves_flags));
+    }
+    elr_el1
+}
+
+// read spsr_el2 register
+#[inline(always)]
+pub fn read_spsr_el2() -> u64 {
+    let spsr_el2: u64;
+    unsafe {
+        asm!("mrs {}, SPSR_EL2", out(reg) spsr_el2, options(nomem, nostack, preserves_flags));
+    }
+    spsr_el2
+}
+
+// read spsr_el1 register
+#[inline(always)]
+pub fn read_spsr_el1() -> u64 {
+    let spsr_el1: u64;
+    unsafe {
+        asm!("mrs {}, SPSR_EL1", out(reg) spsr_el1, options(nomem, nostack, preserves_flags));
+    }
+    spsr_el1
+}
+
+#[inline(always)]
+pub fn enable_hypervisor() {
+    unsafe {
+        asm!(
+            "mov x0, xzr",
+            "mov x0, #(1 << 31)",   // 64bit EL1
+            "orr x0, x0, #(1 << 3)",  // Physical IRQ Routing ! MUST
+            "orr x0, x0, #(1 << 4)",  // Physical Serror Routing 
+            "orr x0, x0, #(1 << 5)",  // Physical Serror Routing
+            "msr hcr_el2, x0",
+            "ret",
+            options(nostack)
+        );
+    }
 }
