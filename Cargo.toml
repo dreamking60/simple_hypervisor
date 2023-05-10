@@ -15,4 +15,3 @@ panic = "abort"
 target = "aarch64-unknown-none.json"
 
 [dependencies]
-volatile = "0.4.6"

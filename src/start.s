@@ -6,7 +6,7 @@
 _start:
     ldr     x30, =LD_STACK_PTR
     mov     sp, x30
-    bl      hypervisor_main
+    bl      kmain
 
 .equ PSCI_SYSTEM_OFF, 0x84000008
 .global system_off
