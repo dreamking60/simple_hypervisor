@@ -12,21 +12,31 @@ global_asm!(include_str!("start.s"));
 
 #[no_mangle]
 fn kmain() {
+    // Before enable hypervisor
+    // check hcr_el2 and exception level
     print_el();
     print_hcr_el2();
+
+    // Enable hypervisor
     aarch64::asm::enable_hypervisor();
+
+    // After enable hypervisor
+    // check hcr_el2 and exception level
     print_hcr_el2();
     print_el();
+    
+    // Go to hypervisor main function
     hypervisor_main();
 }
 
 #[no_mangle]
 pub extern "C" fn hypervisor_main() {
+    // start print
     println!("Hypervisor running!");
     print_el();
 
     // close the hypervisor
-
+    
 }
 
 fn print_el() {

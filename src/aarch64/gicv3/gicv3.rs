@@ -42,11 +42,4 @@ const GICD_CTLR_E1: u32 = 0x600;
 const GICD_CTLR_NLBPR: u32 = 0x7 << 5;
 const GICD_CTLR_RWP: u32 = 0x1 << 7;
 
-// GIC Interrupt Group
-const GICD_ICFGR_LEVEL: u32 = 0x0;
-const GICD_ICFGR_EDGE: u32 = 0x2;
-const GICD_ICFGR_MASK: u32 = 0x2;
-
-// GIC Interrupt Priority
-const GICD_IPRIORITYR_PRIORITY: u32 = 0xFF;
-
+// GIC CPU Interface struct

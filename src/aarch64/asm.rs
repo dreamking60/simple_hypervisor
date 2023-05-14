@@ -143,3 +143,66 @@ pub fn enable_hypervisor() {
         );
     }
 }
+
+// timer asembly
+// read cntfrq_el0 register (counter frequent)
+#[inline(always)]
+pub fn read_cntfrq_el0() -> u64 {
+    let cntfrq_el0: u64;
+    unsafe {
+        asm!("mrs {}, CNTFRQ_EL0", out(reg) cntfrq_el0, options(nomem, nostack, preserves_flags));
+    }
+    cntfrq_el0
+}
+
+// read cntpct_el0 register (physical count)
+#[inline(always)]
+pub fn read_cntpct_el0() -> u64 {
+    let cntpct_el0: u64;
+    unsafe {
+        asm!("mrs {}, CNTPCT_EL0", out(reg) cntpct_el0, options(nomem, nostack, preserves_flags));
+    }
+    cntpct_el0
+}
+
+// read cnthp_ctl_el2 register
+#[inline(always)]
+pub fn read_cnthp_ctl_el2() -> u64 {
+    let cnthp_ctl_el2: u64;
+    unsafe {
+        asm!("mrs {}, CNTHP_CTL_EL2", out(reg) cnthp_ctl_el2, options(nomem, nostack, preserves_flags));
+    }
+    cnthp_ctl_el2
+}
+
+// diable cnthp_ctl_el2 register
+#[inline(always)]
+pub fn disable_cnthp_ctl_el2() {
+    let mut cnthp_ctl_el2: u64;
+    let cnthp_ctl_enable: u64 = 1 << 0;
+    cnthp_ctl_el2 = read_cnthp_ctl_el2();
+    cnthp_ctl_el2 &= !cnthp_ctl_enable;
+    unsafe {
+        asm!("msr CNTHP_CTL_EL2, {}", in(reg) cnthp_ctl_el2, options(nomem, nostack, preserves_flags));
+    }
+}
+
+// enable cnthp_ctl_el2 register
+#[inline(always)]
+pub fn enable_cnthp_ctl_el2() {
+    let mut cnthp_ctl_el2: u64;
+    let cnthp_ctl_enable: u64 = 1 << 0;
+    cnthp_ctl_el2 = read_cnthp_ctl_el2();
+    cnthp_ctl_el2 |= cnthp_ctl_enable;
+    unsafe {
+        asm!("msr CNTHP_CTL_EL2, {}", in(reg) cnthp_ctl_el2, options(nomem, nostack, preserves_flags));
+    }
+}
+
+// write cnthp_cval_el2 register
+#[inline(always)]
+pub fn write_cnthp_cval_el2(val: u64) {
+    unsafe {
+        asm!("msr CNTHP_CVAL_EL2, {}", in(reg) val, options(nomem, nostack, preserves_flags));
+    }
+}
