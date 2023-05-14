@@ -9,6 +9,12 @@ pub struct VCPU {
     elr_el2: u64,
 }
 
+impl VCPU {
+    pub fn get_regs(&self) -> &Regs {
+        &self.vcpu_regs
+    }
+}
+
 // save vcpu
 pub fn save_vcpu(vcpu: &mut VCPU, regs: &Regs) {
     vcpu.vcpu_regs = *regs;

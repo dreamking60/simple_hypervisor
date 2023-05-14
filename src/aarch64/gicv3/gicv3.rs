@@ -1,6 +1,7 @@
 // Purpose: GICv3 Driver
 const GICD_BASE_ADDR: usize = 0x0800_0000;
-const GICC_BASE_ADDR: usize = 0x0800_1000;
+const GICC_BASE_ADDR: usize = 0x0801_000;
+const GICR_BASE_ADDR: usize = 0x080A_0000;
 
 // GICD Control Register
 const GICD_CTLR: *mut u32 = (GICD_BASE_ADDR + 0x0000) as *mut u32;
@@ -29,17 +30,9 @@ const GICC_CTLR_EOImode: u32 = 0x18;
 const GICC_CTLR_BPR: u32 = 0x7 << 3;
 const GICC_CTLR_PRIOR: u32 = 0xFF << 23;
 
-// GIC Distributor
-const GICD_CTLR_ENABLE: u32 = 0x1;
-const GICD_CTLR_ARE_NS: u32 = 0x2;
-const GICD_CTLR_ARE_S: u32 = 0x4;
-const GICD_CTLR_ARE: u32 = 0x6;
-const GICD_CTLR_DS: u32 = 0x8;
-const GICD_CTLR_E1NWF: u32 = 0x100;
-const GICD_CTLR_E1NS: u32 = 0x200;
-const GICD_CTLR_E1S: u32 = 0x400;
-const GICD_CTLR_E1: u32 = 0x600;
-const GICD_CTLR_NLBPR: u32 = 0x7 << 5;
-const GICD_CTLR_RWP: u32 = 0x1 << 7;
-
-// GIC CPU Interface struct
+// GIC init
+pub fn gic_init() {
+    // GICD_CTLR
+    
+    // GICR_CTLR
+}
